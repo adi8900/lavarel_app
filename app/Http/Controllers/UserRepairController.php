@@ -8,8 +8,11 @@ class UserRepairController extends Controller
 {
     public function index()
     {
-        // Pobierz naprawy przypisane do zalogowanego użytkownika
-        $repairs = Repair::where('assigned_to', auth()->id())->get();
+        // Eager load 'device' and 'status' relationships for performance optimization
+        $repairs = Repair::with(['device', 'status'])
+                         ->where('assigned_to', auth()->id()) // Get repairs assigned to the logged-in user
+                         ->get();     
+
         return view('repairs.index', compact('repairs'));
     }
 }

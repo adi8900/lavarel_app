@@ -21,7 +21,8 @@
                     @foreach($repairs as $repair)
                         <tr>
                             <td>{{ $repair->id }}</td>
-                            <td>{{ $repair->device->name }}</td>
+                            <!-- Use brand and model to display device name -->
+                            <td>{{ $repair->device->brand . ' ' . $repair->device->model }}</td>
                             <td>{{ $repair->status->name }}</td>
                             <td>{{ $repair->description }}</td>
                             <td>{{ $repair->created_at->format('Y-m-d H:i') }}</td>

@@ -16,6 +16,12 @@ class Device extends Model
         'user_id',
     ];
 
+    // Define an accessor for the 'name' field
+    public function getNameAttribute()
+    {
+        return $this->brand . ' ' . $this->model;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
