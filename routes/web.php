@@ -33,14 +33,14 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
 
 // Admin routes
-Route::middleware([CheckRole::class . ':admin'])->group(function () {
+Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
     Route::get('/admin', function () {
         return view('admin.dashboard'); // Admin dashboard view
     })->name('admin.dashboard');
 
-    // Full CRUD for repairs
+    // Resource routes for repairs (admin only)
     Route::resource('/admin/repairs', AdminRepairController::class);
-    
+
     // Admin can delete reviews
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
