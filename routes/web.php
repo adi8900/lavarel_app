@@ -5,6 +5,7 @@ use App\Http\Middleware\CheckRole;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserRepairController;
 use App\Http\Controllers\AdminRepairController;
+use App\Http\Controllers\ReviewController;
 
 // Public routes
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
@@ -15,10 +16,21 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome'); // Home page or welcome page
+
 // Routes for authenticated users
 Route::middleware(['auth'])->group(function () {
-    Route::get('/repairs', [UserRepairController::class, 'index'])->name('user.repairs'); // User's repairs
+    // User's repairs
+    Route::get('/repairs', [UserRepairController::class, 'index'])->name('user.repairs');
+    
+    // User can post reviews
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
+
+// Public review route (view all reviews)
+Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
 
 // Admin routes
 Route::middleware([CheckRole::class . ':admin'])->group(function () {
@@ -26,5 +38,9 @@ Route::middleware([CheckRole::class . ':admin'])->group(function () {
         return view('admin.dashboard'); // Admin dashboard view
     })->name('admin.dashboard');
 
-    Route::resource('/admin/repairs', AdminRepairController::class); // Full CRUD for repairs
+    // Full CRUD for repairs
+    Route::resource('/admin/repairs', AdminRepairController::class);
+    
+    // Admin can delete reviews
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
