@@ -15,5 +15,12 @@ class UserRepairController extends Controller
 
         return view('repairs.index', compact('repairs'));
     }
+
+    public function workerIndex()
+    {
+        $repairs = Repair::where('assigned_to', auth()->id())->get();
+        return view('worker.repairs.index', compact('repairs'));
+    }
+
 }
 

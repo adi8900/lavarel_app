@@ -10,23 +10,22 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        $adminEmail = 'admin@example.com';
-        $adminPassword = 'admin123';
-
-        // Tworzenie administratora
-        $admin = User::create([
+        // Create an admin
+        User::create([
             'name' => 'Admin User',
-            'email' => $adminEmail,
-            'password' => Hash::make($adminPassword), // Hasło admina
-            'role' => User::ROLE_ADMIN, // Rola admina
+            'email' => 'admin@example.com',
+            'password' => Hash::make('admin123'),
+            'role' => User::ROLE_ADMIN,
         ]);
 
-        $this->command->info("Admin created successfully.");
-        $this->command->info("Email: $adminEmail");
-        $this->command->info("Password: $adminPassword");
+        // Create workers
+        User::factory(5)->create([
+            'role' => User::ROLE_WORKER,
+        ]);
 
-        // Tworzenie przykładowych użytkowników
-        $users = User::factory(10)->create(); // Tworzy 10 użytkowników
-        $this->command->info("Created " . $users->count() . " sample users and assigned user_id.");
+        // Create regular users
+        User::factory(10)->create([
+            'role' => User::ROLE_USER,
+        ]);
     }
 }

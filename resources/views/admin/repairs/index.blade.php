@@ -9,7 +9,11 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4">Repairs Management</h1>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Repairs Management</h1>
+            <!-- Button to create a new repair -->
+            <a href="{{ route('repairs.create') }}" class="btn btn-primary">Create Repair</a>
+        </div>
 
         @if (session('success'))
             <div class="alert alert-success">
@@ -39,6 +43,7 @@
                         <td>
                             <a href="{{ route('repairs.show', $repair->id) }}" class="btn btn-info btn-sm">View</a>
                             <a href="{{ route('repairs.edit', $repair->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            
                             <form action="{{ route('repairs.destroy', $repair->id) }}" method="POST" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')

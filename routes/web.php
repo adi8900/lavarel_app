@@ -29,6 +29,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
+Route::middleware(['auth', CheckRole::class . ':worker'])->group(function () {
+    Route::get('/worker/repairs', [UserRepairController::class, 'workerIndex'])->name('worker.repairs');
+});
+
 // Public review route (view all reviews)
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
 

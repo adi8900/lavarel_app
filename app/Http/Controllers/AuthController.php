@@ -20,12 +20,14 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|confirmed',
+            'role' => 'required|in:' . User::ROLE_USER . ',' . User::ROLE_WORKER, // Validate role input
         ]);
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role, // Save the selected role
         ]);
 
         return redirect('/login')->with('success', 'Registration successful! Please login.');
@@ -42,7 +44,15 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+
+            // Redirect users based on their role
+            if (Auth::user()->isAdmin()) {
+                return redirect()->route('admin.dashboard');
+            } elseif (Auth::user()->isWorker()) {
+                return redirect()->route('worker.dashboard');
+            } else {
+                return redirect()->intended('/');
+            }
         }
 
         return back()->withErrors([

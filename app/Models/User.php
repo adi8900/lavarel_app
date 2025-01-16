@@ -13,6 +13,7 @@ class User extends Authenticatable
     // Predefined roles
     public const ROLE_ADMIN = 'admin';
     public const ROLE_USER = 'user';
+    public const ROLE_WORKER = 'worker'; // New worker role
 
     /**
      * The attributes that are mass assignable.
@@ -71,10 +72,15 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if the user is a moderator.
+     * Check if the user is a worker.
      *
      * @return bool
      */
+    public function isWorker(): bool
+    {
+        return $this->role === self::ROLE_WORKER;
+    }
+
     /**
      * Check if the user is a regular user.
      *
