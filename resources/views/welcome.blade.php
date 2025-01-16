@@ -9,19 +9,43 @@
     <style>
         body.custom-bg-dark {
             background-color: #2c2c2c;
-            color: #f8f9fa;
+            color: #f8f9fa; /* White text on dark background */
         }
+
         body.custom-bg-light {
             background-color: #f8f9fa;
+            color: #212529; /* Dark text on light background */
+        }
+
+        .card.custom-bg-dark {
+            background-color: #3c3c3c;
+            color: #f8f9fa;
+        }
+
+        .card.custom-bg-light {
+            background-color: #ffffff;
             color: #212529;
         }
+
+        /* Global font sizes */
+        body.font-size-normal, body.font-size-normal * {
+    font-size: 18px !important; /* Zwiększenie domyślnej czcionki */
+}
+
+body.font-size-large, body.font-size-large * {
+    font-size: 20px !important;
+}
+
+body.font-size-xlarge, body.font-size-xlarge * {
+    font-size: 22px !important;
+}
     </style>
 </head>
-<body>
+<body class="custom-bg-light font-size-normal">
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm custom-bg-light">
                     <div class="card-body text-center">
                         <h1 class="mb-4">Witaj w aplikacji serwisu telefonów!</h1>
                         
@@ -65,7 +89,7 @@
         const increaseFontBtn = document.getElementById('increaseFontBtn');
         const decreaseFontBtn = document.getElementById('decreaseFontBtn');
 
-        let fontSize = 16; // Default font size in pixels
+        let fontSizeClass = 'font-size-normal'; // Default font size class
 
         darkModeBtn.addEventListener('click', () => {
             body.classList.add('custom-bg-dark');
@@ -78,14 +102,28 @@
         });
 
         increaseFontBtn.addEventListener('click', () => {
-            fontSize += 2;
-            body.style.fontSize = fontSize + 'px';
+            if (fontSizeClass === 'font-size-normal') {
+                fontSizeClass = 'font-size-large';
+            } else if (fontSizeClass === 'font-size-large') {
+                fontSizeClass = 'font-size-xlarge';
+            }
+            updateFontSize();
         });
 
         decreaseFontBtn.addEventListener('click', () => {
-            fontSize = Math.max(12, fontSize - 2); // Minimum font size is 12px
-            body.style.fontSize = fontSize + 'px';
+            if (fontSizeClass === 'font-size-xlarge') {
+                fontSizeClass = 'font-size-large';
+            } else if (fontSizeClass === 'font-size-large') {
+                fontSizeClass = 'font-size-normal';
+            }
+            updateFontSize();
         });
+
+        // Update font size class
+        function updateFontSize() {
+            body.classList.remove('font-size-normal', 'font-size-large', 'font-size-xlarge');
+            body.classList.add(fontSizeClass);
+        }
     </script>
 </body>
 </html>

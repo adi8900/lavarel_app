@@ -4,6 +4,16 @@
 <div class="container">
     <h1>Reviews</h1>
 
+    <!-- Formularz wyszukiwania -->
+    <form action="{{ route('reviews.index') }}" method="GET" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" 
+                   placeholder="Search reviews..." 
+                   value="{{ request('search') }}">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+
     @auth
         <form action="{{ route('reviews.store') }}" method="POST" class="mb-4">
             @csrf
@@ -27,6 +37,7 @@
         <p><a href="{{ route('login') }}">Login</a> to leave a review.</p>
     @endauth
 
+    <!-- Wyświetlanie recenzji -->
     @foreach ($reviews as $review)
         <div class="card mb-3">
             <div class="card-body">
@@ -45,6 +56,9 @@
         </div>
     @endforeach
 
-    {{ $reviews->links() }}
+    <!-- Paginacja -->
+    <div class="d-flex justify-content-center mt-4">
+        {{ $reviews->links('pagination::bootstrap-4') }}
+    </div>
 </div>
 @endsection

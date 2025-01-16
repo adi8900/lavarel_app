@@ -7,9 +7,16 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $reviews = Review::with('user')->latest()->paginate(10);
+        $query = Review::with('user');
+
+        // Obsługa wyszukiwania po treści recenzji
+        if ($request->has('search') && $request->search !== null) {
+            $query->where('content', 'like', '%' . $request->search . '%');
+        }
+
+        $reviews = $query->latest()->paginate(10)->appends(['search' => $request->search]);
         return view('reviews.index', compact('reviews'));
     }
 
@@ -39,3 +46,4 @@ class ReviewController extends Controller
         abort(403, 'Unauthorized action.');
     }
 }
+
