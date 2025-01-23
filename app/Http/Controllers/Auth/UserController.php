@@ -69,11 +69,10 @@ class UserController extends Controller
     public function index()
     {
         // Fetch all users from the database
-        $users = User::all();
+        $users = User::paginate(10);
     
         // Return a view or JSON response with the users
         return view('admin.users.index', compact('users')); // If using a Blade view
-        // Or return response()->json($users); // If returning JSON
     }
 
 }
