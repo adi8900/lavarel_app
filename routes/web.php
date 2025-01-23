@@ -6,12 +6,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserRepairController;
 use App\Http\Controllers\AdminRepairController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\Auth\UserController;
 
 // Public routes
 Route::prefix('/')->group(function () {
     Route::get('/', function () {
         return view('welcome');
-    })->name('welcome'); // Home page or welcome page
+    })->name('welcome');
 
     Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
@@ -24,16 +25,14 @@ Route::prefix('/')->group(function () {
 
 // Routes for authenticated users
 Route::middleware(['auth'])->group(function () {
-    // User dashboard or repairs
     Route::prefix('/user')->group(function () {
         Route::get('/repairs', [UserRepairController::class, 'index'])->name('user.repairs');
     });
 
-    // Reviews
     Route::prefix('/reviews')->group(function () {
-        Route::get('/', [ReviewController::class, 'index'])->name('reviews.index'); // Public view
-        Route::post('/', [ReviewController::class, 'store'])->name('reviews.store'); // Authenticated users
-        Route::put('/{review}', [ReviewController::class, 'update'])->name('reviews.update'); // Update review
+        Route::get('/', [ReviewController::class, 'index'])->name('reviews.index');
+        Route::post('/', [ReviewController::class, 'store'])->name('reviews.store');
+        Route::put('/{review}', [ReviewController::class, 'update'])->name('reviews.update');
     });
 });
 
@@ -41,14 +40,14 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', CheckRole::class . ':worker'])->prefix('/worker')->group(function () {
     Route::get('/repairs', [UserRepairController::class, 'workerIndex'])->name('worker.repairs');
     Route::get('/dashboard', function () {
-        return view('worker.dashboard'); // Create `resources/views/worker/dashboard.blade.php`
+        return view('worker.dashboard');
     })->name('worker.dashboard');
 });
 
 // Admin routes
 Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('/admin')->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.dashboard'); // Admin dashboard view
+        return view('admin.dashboard');
     })->name('admin.dashboard');
 
     // Resource routes for repairs
@@ -56,4 +55,8 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('/admin')->grou
 
     // Manage reviews
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+
+    // Manage users
+    Route::get('/users', [UserController::class, 'index'])->name('admin.users.index'); // List users
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy'); // Delete user
 });
