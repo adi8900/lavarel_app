@@ -3,57 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Worker Dashboard</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body.custom-bg-dark {
-            background-color: #2c2c2c;
-            color: #f8f9fa;
-        }
-
-        body.custom-bg-light {
-            background-color: #f8f9fa;
-            color: #212529;
-        }
-
-        body.high-contrast {
-            background-color: #000000;
-            color: #ffff00;
-        }
-
-        .card.custom-bg-dark {
-            background-color: #3c3c3c;
-            color: #f8f9fa;
-        }
-
-        .card.custom-bg-light {
-            background-color: #ffffff;
-            color: #212529;
-        }
-
-        .card.high-contrast {
-            background-color: #000000;
-            color: #ffff00;
-        }
-
-        body.font-size-normal, body.font-size-normal * {
-            font-size: 18px !important;
-        }
-
-        body.font-size-large, body.font-size-large * {
-            font-size: 20px !important;
-        }
-
-        body.font-size-xlarge, body.font-size-xlarge * {
-            font-size: 22px !important;
-        }
+        /* Użyj tych samych stylów co w Admin Dashboard */
     </style>
 </head>
 <body class="custom-bg-light font-size-normal">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Admin Dashboard</a>
+            <a class="navbar-brand" href="#">Worker Dashboard</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -69,13 +29,11 @@
     <div class="container mt-5">
         <div class="card shadow-sm custom-bg-light">
             <div class="card-body text-center">
-                <h1>Admin Dashboard</h1>
+                <h1>Worker Dashboard</h1>
                 <p>Welcome, {{ auth()->user()->name }}!</p>
 
-                <!-- Buttons for Admin Actions -->
-                <a href="{{ route('admin.dashboard') }}" class="btn btn-primary mb-2">Admin Panel</a>
-                <a href="{{ route('repairs.index') }}" class="btn btn-warning mb-2">Manage Repairs</a>
-
+                <!-- Buttons for Worker Actions -->
+                <a href="{{ route('worker.repairs') }}" class="btn btn-primary mb-2">View Repairs</a>
                 <!-- Accessibility Options -->
                 <hr class="my-4">
                 <h5>Accessibility Options</h5>
