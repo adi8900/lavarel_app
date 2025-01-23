@@ -20,6 +20,47 @@
             background-color: #000; /* Czarne tło */
             color: #fff; /* Biały tekst */
             font-weight: bold;
+
+/* Tryb ciemny dla tabel */
+body.dark-mode table {
+    background-color: #333; /* Ciemne tło tabeli */
+    color: #fff; /* Jasny tekst */
+    border-color: #555; /* Obramowanie tabeli */
+}
+
+body.dark-mode table th,
+body.dark-mode table td {
+    border: 1px solid #555; /* Obramowanie komórek */
+}
+
+body.dark-mode table th {
+    background-color: #444; /* Ciemniejsze nagłówki */
+}
+
+body.dark-mode table tbody tr:nth-child(odd) {
+    background-color: #3a3a3a; /* Alternatywne wiersze */
+}
+
+/* Tryb wysokiego kontrastu dla tabel */
+body.high-contrast table {
+    background-color: #000; /* Czarne tło tabeli */
+    color: #fff; /* Biały tekst */
+    border-color: #fff; /* Obramowanie tabeli */
+}
+
+body.high-contrast table th,
+body.high-contrast table td {
+    border: 2px solid #fff; /* Grubsze obramowanie */
+}
+
+body.high-contrast table th {
+    background-color: #222; /* Nagłówki tabeli w trybie kontrastu */
+}
+
+body.high-contrast table tbody tr:nth-child(odd) {
+    background-color: #111; /* Alternatywne wiersze */
+}
+
         }
     </style>
 </head>

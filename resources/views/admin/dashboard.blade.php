@@ -191,8 +191,6 @@ function updateFontSize() {
     body.classList.remove('font-size-normal', 'font-size-large', 'font-size-xlarge');
     body.classList.add(fontSizeClass);
 }
-
-}
     </script>
 </body>
 </html>

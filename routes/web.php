@@ -7,6 +7,7 @@ use App\Http\Controllers\UserRepairController;
 use App\Http\Controllers\AdminRepairController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\WorkerRepairController;
 
 // Public routes
 Route::prefix('/')->group(function () {
@@ -38,10 +39,22 @@ Route::middleware(['auth'])->group(function () {
 
 // Worker routes
 Route::middleware(['auth', CheckRole::class . ':worker'])->prefix('/worker')->group(function () {
-    Route::get('/repairs', [UserRepairController::class, 'workerIndex'])->name('worker.repairs');
-    Route::get('/dashboard', function () {
-        return view('worker.dashboard');
-    })->name('worker.dashboard');
+    Route::get('/repairs', [WorkerRepairController::class, 'index'])->name('worker.repairs');
+
+    // Create new repair page
+    Route::get('/repairs/create', [WorkerRepairController::class, 'create'])->name('worker.repairs.create');
+    
+    // Edit repair page
+    Route::get('/repairs/{repair}/edit', [WorkerRepairController::class, 'edit'])->name('worker.repairs.edit');
+    
+    // Update repair
+    Route::put('/repairs/{repair}', [WorkerRepairController::class, 'update'])->name('worker.repairs.update');
+    
+    // Store new repair
+    Route::post('/repairs', [WorkerRepairController::class, 'store'])->name('worker.repairs.store');
+    
+    // Delete repair
+    Route::delete('/repairs/{repair}', [WorkerRepairController::class, 'destroy'])->name('worker.repairs.destroy');
 });
 
 // Admin routes
